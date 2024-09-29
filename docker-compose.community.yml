@@ -75,21 +75,19 @@ services:
     volumes:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
-  # redis:
-  #   image: bitnami/redis:7.2.5
-  #   networks:
-  #     - "stack"
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "ping"]
-  #     interval: 5s
-  #     timeout: 10s
-  #     retries: 6
-  #     start_period: 5s
-  #   environment:
-  #     REDIS_PASSWORD: "${REDIS_PASSWORD}"
-  #     REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
-  #   volumes:
-  #     - "./.hive/redis/db:/bitnami/redis/data"
+  redis:
+    container_name: ${REDIS_CONTAINER_NAME}  # Specify your existing Redis container name
+    networks:
+      - "stack"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 6
+      start_period: 5s
+    environment:
+      # REDIS_PASSWORD: "${REDIS_PASSWORD}"  # Use the existing password if needed
+      REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"  # Optional: Keep your settings
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
@@ -211,7 +209,7 @@ services:
       CLICKHOUSE_PORT: 8123
       CLICKHOUSE_USERNAME: "${CLICKHOUSE_USER}"
       CLICKHOUSE_PASSWORD: "${CLICKHOUSE_PASSWORD}"
-      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
        # REDIS_PASSWORD: "${REDIS_PASSWORD}"
       TOKENS_ENDPOINT: http://tokens:3003
@@ -268,7 +266,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3002
-      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
        # REDIS_PASSWORD: "${REDIS_PASSWORD}"
       ENCRYPTION_SECRET: "${HIVE_ENCRYPTION_SECRET}"
@@ -292,7 +290,7 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_PORT: 5432
       POSTGRES_DB: "${POSTGRES_DB}"
-      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
       # REDIS_PASSWORD: "${REDIS_PASSWORD}"
       PORT: 3003
@@ -312,7 +310,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3005
-      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
        # REDIS_PASSWORD: "${REDIS_PASSWORD}"
       LOG_LEVEL: "${LOG_LEVEL:-debug}"
@@ -331,7 +329,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3011
-      REDIS_HOST: "${REDIS_HOST}"
+      REDIS_HOST: redis
       REDIS_PORT: 6379
        # REDIS_PASSWORD: "${REDIS_PASSWORD}"
       EMAIL_FROM: no-reply@graphql-hive.com
