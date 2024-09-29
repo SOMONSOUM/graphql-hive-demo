@@ -90,6 +90,7 @@ services:
       REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
     volumes:
       - "./.hive/redis/db:/bitnami/redis/data"
+    user: "1001:1001"
     command: ["redis-server", "--appendonly", "yes"] 
 
   supertokens:
