@@ -76,8 +76,8 @@ services:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
   redis:
-    image: bitnami/redis:7.2.5
-    user: "1001:1001"
+    build:
+      context: .  # Use the current directory for the build context
     networks:
       - "stack"
     healthcheck:
