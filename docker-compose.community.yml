@@ -90,7 +90,6 @@ services:
       REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
     volumes:
       - "./.hive/redis/db:/bitnami/redis/data"
-    entrypoint: bash -c "chmod -R 777 /bitnami/redis/data && /opt/bitnami/scripts/redis/entrypoint.sh /opt/bitnami/scripts/redis/run.sh"
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
