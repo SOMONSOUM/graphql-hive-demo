@@ -76,7 +76,7 @@ services:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
   redis:
-    container_name: ${REDIS_CONTAINER_NAME}  # Specify your existing Redis container name
+    image: bitnami/redis:7.2.5
     networks:
       - "stack"
     healthcheck:
@@ -86,8 +86,10 @@ services:
       retries: 6
       start_period: 5s
     environment:
-      # REDIS_PASSWORD: "${REDIS_PASSWORD}"  # Use the existing password if needed
-      REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"  # Optional: Keep your settings
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
+    volumes:
+      - "./.hive/redis/db:/bitnami/redis/data"
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
@@ -211,7 +213,7 @@ services:
       CLICKHOUSE_PASSWORD: "${CLICKHOUSE_PASSWORD}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
-       # REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       TOKENS_ENDPOINT: http://tokens:3003
       WEBHOOKS_ENDPOINT: http://webhooks:3005
       SCHEMA_ENDPOINT: http://schema:3002
@@ -268,7 +270,7 @@ services:
       PORT: 3002
       REDIS_HOST: redis
       REDIS_PORT: 6379
-       # REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       ENCRYPTION_SECRET: "${HIVE_ENCRYPTION_SECRET}"
       OPENTELEMETRY_COLLECTOR_ENDPOINT: "${OPENTELEMETRY_COLLECTOR_ENDPOINT:-}"
       SENTRY: "${SENTRY:-0}"
@@ -292,7 +294,7 @@ services:
       POSTGRES_DB: "${POSTGRES_DB}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      # REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       PORT: 3003
       LOG_LEVEL: "${LOG_LEVEL:-debug}"
       OPENTELEMETRY_COLLECTOR_ENDPOINT: "${OPENTELEMETRY_COLLECTOR_ENDPOINT:-}"
@@ -312,7 +314,7 @@ services:
       PORT: 3005
       REDIS_HOST: redis
       REDIS_PORT: 6379
-       # REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       LOG_LEVEL: "${LOG_LEVEL:-debug}"
       OPENTELEMETRY_COLLECTOR_ENDPOINT: "${OPENTELEMETRY_COLLECTOR_ENDPOINT:-}"
       SENTRY: "${SENTRY:-0}"
@@ -331,7 +333,7 @@ services:
       PORT: 3011
       REDIS_HOST: redis
       REDIS_PORT: 6379
-       # REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
       EMAIL_FROM: no-reply@graphql-hive.com
       EMAIL_PROVIDER: sendmail
       LOG_LEVEL: "${LOG_LEVEL:-debug}"
