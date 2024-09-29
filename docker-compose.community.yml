@@ -75,22 +75,21 @@ services:
     volumes:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
-  redis:
-    image: bitnami/redis:7.2.5
-    networks:
-      - "stack"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 10s
-      retries: 6
-      start_period: 5s
-    environment:
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
-      REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
-    volumes:
-      - "./.hive/redis/db:/bitnami/redis/data"
-    command: ['chgrp', '1001', '/opt/bitnami/redis']
+    redis:
+      image: bitnami/redis:7.2.5
+      networks:
+        - "stack"
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 5s
+        timeout: 10s
+        retries: 6
+        start_period: 5s
+      environment:
+        REDIS_PASSWORD: "${REDIS_PASSWORD}"
+        REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
+      volumes:
+        - "./.hive/redis/db:/bitnami/redis/data"
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
