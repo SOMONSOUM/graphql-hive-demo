@@ -75,8 +75,12 @@ services:
     volumes:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
+persistence:
+  enabled: true
+
   redis:
     image: bitnami/redis:7.2.5
+    command: ['chgrp', '1001', '/opt/bitnami/redis']
     networks:
       - "stack"
     healthcheck:
@@ -88,8 +92,6 @@ services:
     environment:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
       REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
-      REDIS_APPENDONLY: "yes"  # Ensure AOF is enabled
-      REDIS_AOF_DIR: "/bitnami/redis/data"  # Specify the directory for the append-only file
     volumes:
       - "./.hive/redis/db:/bitnami/redis/data"
     user: "1001:1001"
