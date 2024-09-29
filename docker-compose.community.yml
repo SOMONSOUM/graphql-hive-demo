@@ -77,6 +77,7 @@ services:
 
   redis:
     image: bitnami/redis:7.2.5
+    user: "1001:1001"
     networks:
       - "stack"
     healthcheck:
@@ -90,7 +91,6 @@ services:
       REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
     volumes:
       - "./.hive/redis/db:/bitnami/redis/data"
-    entrypoint: bash -c "chmod -R 777 /bitnami/redis/data && /opt/bitnami/scripts/redis/entrypoint.sh /opt/bitnami/scripts/redis/run.sh"
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
