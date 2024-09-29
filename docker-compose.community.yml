@@ -75,12 +75,8 @@ services:
     volumes:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
-persistence:
-  enabled: true
-
   redis:
     image: bitnami/redis:7.2.5
-    command: ['chgrp', '1001', '/opt/bitnami/redis']
     networks:
       - "stack"
     healthcheck:
@@ -94,7 +90,7 @@ persistence:
       REDIS_DISABLE_COMMANDS: "FLUSHDB,FLUSHALL"
     volumes:
       - "./.hive/redis/db:/bitnami/redis/data"
-    user: "1001:1001"
+    command: ['chgrp', '1001', '/opt/bitnami/redis']
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
