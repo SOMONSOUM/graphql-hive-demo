@@ -76,7 +76,7 @@ services:
       - ./.hive/broker/db:/var/lib/redpanda/data
 
   redis:
-    image: bitnami/redis:7.4.0
+    image: bitnami/redis:7.4.6
     networks:
       - 'stack'
     healthcheck:
@@ -90,6 +90,8 @@ services:
       REDIS_DISABLE_COMMANDS: 'FLUSHDB,FLUSHALL'
     volumes:
       - './.hive/redis/db:/bitnami/redis/data'
+    ports:
+      - '6380:6379'  # Map host port 6380 to container port 6379
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:7.0
@@ -212,7 +214,7 @@ services:
       CLICKHOUSE_USERNAME: '${CLICKHOUSE_USER}'
       CLICKHOUSE_PASSWORD: '${CLICKHOUSE_PASSWORD}'
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
       TOKENS_ENDPOINT: http://tokens:3003
       WEBHOOKS_ENDPOINT: http://webhooks:3005
@@ -266,7 +268,7 @@ services:
       NODE_ENV: production
       PORT: 3002
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
       ENCRYPTION_SECRET: '${HIVE_ENCRYPTION_SECRET}'
       OPENTELEMETRY_COLLECTOR_ENDPOINT: '${OPENTELEMETRY_COLLECTOR_ENDPOINT:-}'
@@ -290,7 +292,7 @@ services:
       POSTGRES_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB}'
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
       PORT: 3003
       LOG_LEVEL: '${LOG_LEVEL:-debug}'
@@ -310,7 +312,7 @@ services:
       NODE_ENV: production
       PORT: 3005
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
       LOG_LEVEL: '${LOG_LEVEL:-debug}'
       OPENTELEMETRY_COLLECTOR_ENDPOINT: '${OPENTELEMETRY_COLLECTOR_ENDPOINT:-}'
@@ -329,7 +331,7 @@ services:
       NODE_ENV: production
       PORT: 3011
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: 6380
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
       EMAIL_FROM: no-reply@graphql-hive.com
       EMAIL_PROVIDER: sendmail
